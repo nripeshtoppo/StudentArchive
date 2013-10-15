@@ -1,0 +1,623 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0071)http://syncgen.projects.cis.ksu.edu/documentation/examples/barber.shtml -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  
+  <title>Single Sleeping Barber Problem</title>
+  
+  
+  <link rel="stylesheet" href="http://syncgen.projects.cis.ksu.edu/style.css">
+</head>
+
+<body>
+
+<!-- Using table hack to get formatting to work properly w/ both IE
+     and Mozilla.  Just using div's was causing problems with IE on
+     tables that were too wide. -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tbody><tr>
+    <td colspan="2">
+
+      <div id="header">
+          <div id="title">SyncGen</div>
+    
+    <!--<div id="description">Downloads</div>-->
+    
+    
+  <div id="logo1"><a href="http://www.cis.ksu.edu/chert/"><img src="./Single Sleeping Barber Problem_files/chert.gif" border="0" alt="chert"></a></div>
+  
+  <div id="logo2"><a href="http://www.cis.ksu.edu/santos/"><img src="./Single Sleeping Barber Problem_files/smSantos.gif" border="0" alt="santos lab"></a></div>
+
+      </div>
+
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="180">
+
+      <div id="menu">
+          <h1>Overview</h1>
+  <ul>
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/">About SyncGen</a></li>
+    
+
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/overview/people.shtml">People</a></li>
+    
+
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/overview/funding.shtml">Funding</a></li>
+    
+
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/overview/related.shtml">Related projects</a></li>
+    
+  </ul>
+
+  <h1>Downloads</h1>
+  <ul>
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/downloads/installation.shtml">SyncGen</a></li>
+    
+  </ul> 
+  
+  <h1>Documentation</h1>
+  <ul>
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/documentation/architecture.shtml">Architecture</a></li>
+    
+    
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/documentation/patterns.shtml">Patterns</a></li>
+    
+
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/documentation/example-repository.shtml">Example Repository</a></li>
+    
+  
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/documentation/user-manual.shtml">User's Manual</a></li>
+        
+
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/documentation/ecoop_merged.ppt">Global Invariants Tutorial</a></li>
+    
+
+  </ul>
+
+  <h1>Collaborations</h1>
+  <ul>
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/collaborations/papers.shtml">Papers</a></li>
+    
+
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/collaborations/presentations.shtml">Presentations</a></li>
+            
+  </ul>
+
+  <h1>Support</h1>
+  <ul>
+    
+    <li><a href="http://syncgen.projects.cis.ksu.edu/support/policy.shtml">Policy</a></li>
+    
+
+    <li><a href="http://projects.cis.ksu.edu/projects/syncgen/">Sourceforge Home</a></li>
+    
+    <li><a href="http://projects.cis.ksu.edu/forum/?group_id=14">Forums</a></li>
+
+    <li><a href="http://projects.cis.ksu.edu/tracker/?atid=139&group_id=14&func=browse">Bugs</a></li>
+
+    <li><a href="http://projects.cis.ksu.edu/tracker/?atid=142&group_id=14&func=browse">Feature Requests</a></li>
+  </ul>
+
+      </div>
+
+    </td>
+    <td valign="top">
+
+      <div id="content">
+        
+        <h1>Single Sleeping Barber Problem</h1>
+        
+
+
+<br>
+<h3>Description</h3>
+
+      <blockquote> 
+        <p>The shop has a barber, a barber chair, and a waiting room with several 
+          chairs. When a barber finishes cutting a customer's hair, the barber 
+          fetches another customer from the waiting room if there is a customer, 
+          or stands by the barber chair and daydreams if the waiting room is empty. 
+          A customer who needs a haircut enters the waiting room. If the waiting 
+          room is full, the customer comes back later. If the barber is busy but 
+          there is a waiting room chair available, the customer takes a seat. 
+          If the waiting room is empty and the barber is daydreaming, the customer 
+          sits in the barber chair and wakes the barber up.</p>
+	<br>
+      </blockquote>
+
+
+
+<h3>Diagram</h3>
+
+      <blockquote> 
+        <p>In a solution, we define two types threads: a barber thread and customer 
+          threads. Let integer variable numCustomers keep track of the number 
+          of customers in the waiting room. A scenario (sequential behavior) of 
+          the barber thread is (i.e., it repeats the following): </p>
+
+        <ul>
+          <li>B1 {assertion: no customer is in the barber room} waits until a 
+            customer is in the waiting room; 
+          </li><li>B2 {assertion: met a customer} starts cutting the customer's hair; 
+          </li><li>B3 finishes the hair cut and informs the customer; 
+          </li><li>B4 waits until the customer leaves the barber room. </li>
+        </ul>
+        A scenario for the customer thread is (i.e., it repeats the following): 
+        <ul>
+          <li>C1 checks if the waiting room is full (numCustomers == N), if so, 
+            leaves, else enters the waiting room (increment numCustomers by one); 
+          </li><li>C2 waits until the barber becomes free; 
+          </li><li>C3 {assertion: met the barber} leaves the waiting room (decrement 
+            numCustomers by one) and enters the barber room; 
+          </li><li>C4 waits until the barber finishes the hair cut ; 
+          </li><li>C5 {assertion: hair cut is done} leaves the barber room. </li>
+
+        </ul>
+        Steps B1, B3, and B4 in the barber's scenario constitute synchronization 
+        regions denoted R_B1, R_B3, and R_B4, respectively. Steps C2, C4, and 
+        C5 in the customers' scenario constitute synchronization regions, R_C2, 
+        R_C4, and R_C5, respectively. Three clusters are formed based on the reference 
+        relations: (R_B1, R_C2), (R_B3, R_C4), and (R_B4, R_C5). Cluster (R_B1, 
+        R_C2) forms barrier (R_1, R_2). Clusters (R_B3, R_C4) and (R_B4, R_C5) 
+        form Relay(R_B3, R_C4) and Relay(R_C5, R_B4). 
+        <p></p>
+        <p>It might be wondered why we do not combine steps B3 and B4 into one 
+          step, say B34, and steps C4 and C5 into another step, C45, to form a 
+          cluster with Barrier(R_B34, R_C45). This is because mutual exclusion 
+          is not guaranteed in regions in the Barrier synchronization. Therefore, 
+          there could be a situation in which a customer thread enters region 
+          R_C45 in the Barrier cluster (note that this releases the barber thread 
+          from region R_B34) and suddenly becomes slow. Suppose the barber thread 
+          immediately goes back to the beginning of the loop and meets the next 
+          customer thread in cluster (R_B1, R_C2). Then, the next customer thread 
+          may reach and immediately leave region R_C45 (which was already triggered 
+          by the barber thread in the previous iteration) before the first thread. 
+          One way to solve this problem is to use handshaking synchronization 
+          using two Relay clusters as shown in our solution. Another approach is to specify the cluster 
+          to be Bound(R_C45, 1) and Barrier(R_B34, R_C45). </p>
+        <p><br>
+          <img src="./Single Sleeping Barber Problem_files/barber.jpg" width="460" height="479" align="bottom"></p>
+	</blockquote>
+
+
+<h3>Synchronization Specification</h3>
+
+      <blockquote> 
+        <br>
+         Cluster: B1C2; <br>
+
+         Regions: B1, C2;<br>
+         Invariant: Barrier(B1,C2);<br>
+         <p></p>
+         Cluster: C1C3; <br>
+         Regions: C1,C3; <br>
+         Invariant: Bound(C1,1)+Bound(C3,1)+Exclusion(C1,C3);<br>
+
+         <p></p>
+         Cluster: B3C4;<br>
+         Regions: B3, C4;<br>
+         Invariant: Relay(B3,C4);<br>
+         <p></p>
+         Cluster: B4C5;<br>
+         Regions: B4, C5;<br>
+
+         Invariant: Relay(C5,B4);<br>
+	<br>
+      </blockquote>
+
+
+<h3>Patterns Used</h3>
+
+
+      <blockquote> 
+        <p><a href="http://syncgen.projects.cis.ksu.edu/documentation/patterns/exclusion.shtml" target="_parent">Exclusion</a>, 
+          <a href="http://syncgen.projects.cis.ksu.edu/documentation/patterns/bound.shtml" target="_parent">Bound</a>, <a href="http://syncgen.projects.cis.ksu.edu/documentation/patterns/barrier.shtml" target="_parent">Barrier</a>, and <a href="http://syncgen.projects.cis.ksu.edu/documentation/patterns/relay.shtml" target="_parent">Relay</a>.<br>
+        </p>
+
+      </blockquote>
+
+
+<h3>Global Invariant</h3>
+
+      <p><b>Unbounded</b> <b>Global Invariant</b></p>
+
+      <blockquote> 
+        <ul>
+          <li>For cluster C1C3 which consists of regions C1 and C3:<br>
+            <b><i>(In_C1 - Out_C1 &lt;=1) and (In_C3 - Out_C3 &lt;= 1) and ((In_C1 
+            - Out_C1 ==0) or (In_C3 - Out_C3 == 0))</i></b> <br>
+
+          </li><li>For cluster B1C2 which consists of regions B1 and C2:<br>
+            <b><i>(Out_B1 &lt;= In_C2) and (Out_C2 &lt;= In_B1)</i></b><br>
+          </li><li>For cluster B3C4 which consists of regions B3 and C4:<br>
+            <b><i>Out_C4 &lt;= In_B3</i></b><br>
+          </li><li>For cluster B4C5 which consists of regions B4 and C5:<br>
+
+            <i><b>Out_B4 &lt;= In_C</b></i> 
+        </li></ul>
+      </blockquote>
+
+      <p><b>Bounded Global Invariant Counter Version</b></p>
+      
+      <blockquote> 
+        <ul>
+          <li>For cluster C1C3 which consists of regions C1 and C3:<br>
+            <b><i>(B1 &lt;= 1) and (B2 &lt;= 1) and ((E1_0 ==0) or (E1_1 == 0))</i></b> 
+            <br>
+
+          </li><li>For cluster B1C2 which consists of regions B1 and C2:<br>
+            <b><i>(Ba1_1 &lt;= 0) and (Ba1_2 &lt;= 0)</i></b><br>
+          </li><li>For cluster B3C4 which consists of regions B3 and C4:<br>
+            <b><i>Re1 &lt;= 0</i></b><br>
+          </li><li>For cluster B4C5 which consists of regions B4 and C5:<br>
+
+            <i><b>Re2 &lt;= 0</b></i> 
+        </li></ul>
+	<br>
+      </blockquote>
+
+
+<h3>Core Functional Code</h3>
+
+
+      <blockquote> 
+        <pre><strong>class</strong> <font color="#2040a0">Barber</font> <strong>extends</strong> <font color="#2040a0">Thread</font> <font color="4444FF"><strong>{</strong></font>
+
+    <strong>int</strong> <font color="#2040a0">times</font><font color="4444FF">;</font>
+    <font color="#2040a0">Barber</font><font color="4444FF"><strong>(</strong></font><strong>int</strong> <font color="#2040a0">times</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+        <strong>this</strong>.<font color="#2040a0">times</font> <font color="4444FF">=</font> <font color="#2040a0">times</font><font color="4444FF">;</font>
+
+    <font color="4444FF"><strong>}</strong></font>
+    <strong>public</strong> <strong>void</strong> <font color="#2040a0">run</font><font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+        <strong>while</strong><font color="4444FF"><strong>(</strong></font><font color="#2040a0">times</font><font color="4444FF">&gt;</font><font color="#FF0000">0</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+
+            <font color="#444444">// R_B1</font>
+            <font color="#444444"><i>/*** B1C2 B1 enter ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber wait a customer"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444"><i>/*** B1C2 B1 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber has a customer"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+            <font color="#444444">//R_B2</font>
+
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber starts to cut the customer's hair"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+            <font color="#444444">//R_B3</font>
+            <font color="#444444"><i>/*** B3C4 B3 enter ***/</i></font>
+
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber finished the hair cut"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+            <font color="#444444"><i>/*** B3C4 B3 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber informed the hair cut"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444">//R_B4</font>
+            <font color="#444444"><i>/*** B4C5 B4 enter ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber wait the customer to leave"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444"><i>/*** B4C5 B4 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Barber: the customer to leave"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+            <font color="#2040a0">times</font><font color="4444FF">-</font><font color="4444FF">-</font><font color="4444FF">;</font>
+
+        <font color="4444FF"><strong>}</strong></font>
+    <font color="4444FF"><strong>}</strong></font>
+<font color="4444FF"><strong>}</strong></font>
+
+<strong>class</strong> <font color="#2040a0">Customer</font> <strong>extends</strong> <font color="#2040a0">Thread</font> <font color="4444FF"><strong>{</strong></font>
+
+    <strong>private</strong> <strong>int</strong> <font color="#2040a0">id</font><font color="4444FF">;</font>
+    <font color="#2040a0">Customer</font> <font color="4444FF"><strong>(</strong></font><strong>int</strong> <font color="#2040a0">id</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+
+        <strong>this</strong>.<font color="#2040a0">id</font> <font color="4444FF">=</font> <font color="#2040a0">id</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+    <strong>public</strong> <strong>void</strong> <font color="#2040a0">run</font><font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+
+        <font color="#444444">//R_C1</font>
+        <font color="#444444"><i>/*** C1C3 C1 enter ***/</i></font>
+        <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">"checks the waiting room"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+        <strong>if</strong><font color="4444FF"><strong>(</strong></font><font color="#2040a0">BarberShop</font>.<font color="#2040a0">numCustomers</font> <font color="4444FF">=</font><font color="4444FF">=</font> <font color="#2040a0">BarberShop</font>.<font color="#2040a0">numChairs</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+
+            <font color="#444444"><i>/*** C1C3 C1 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">"finds out the waiting room is full and leave"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <strong>return</strong><font color="4444FF">;</font>
+        <font color="4444FF"><strong>}</strong></font>
+        <strong>else</strong><font color="4444FF"><strong>{</strong></font>
+            <font color="#444444"><i>/*** C1C3 C1 exit ***/</i></font>
+            <font color="#2040a0">BarberShop</font>.<font color="#2040a0">numCustomers</font><font color="4444FF">+</font><font color="4444FF">+</font><font color="4444FF">;</font>
+
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" enters the waiting room"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+            <font color="#444444">//R_C2</font>
+
+            <font color="#444444"><i>/*** B1C2 C2 enter ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" wait the Barber become free"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444"><i>/*** B1C2 C2 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" Barber is free"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444">//R_C3</font>
+            <font color="#444444"><i>/*** C1C3 C3 enter ***/</i></font>
+            <font color="#2040a0">BarberShop</font>.<font color="#2040a0">numCustomers</font><font color="4444FF">-</font><font color="4444FF">-</font><font color="4444FF">;</font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" met the Barber"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444"><i>/*** C1C3 C3 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" leaves the waiting room"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444">//R_C4</font>
+            <font color="#444444"><i>/*** B3C4 C4 enter ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" wait hair cut is done"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444"><i>/*** B3C4 C4 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" hair cut is done"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444">//R_C5</font>
+            <font color="#444444"><i>/*** B4C5 C5 enter ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" starts to leave"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+            <font color="#444444"><i>/*** B4C5 C5 exit ***/</i></font>
+            <font color="#2040a0">System</font>.<font color="#2040a0">out</font>.<font color="#2040a0">println</font><font color="4444FF"><strong>(</strong></font><font color="#008000">"Customer "</font><font color="4444FF">+</font><font color="#2040a0">id</font><font color="4444FF">+</font><font color="#008000">" leaved"</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+        <font color="4444FF"><strong>}</strong></font>
+    <font color="4444FF"><strong>}</strong></font>
+<font color="4444FF"><strong>}</strong></font>
+
+<strong>public</strong> <strong>class</strong> <font color="#2040a0">BarberShop</font> <font color="4444FF"><strong>{</strong></font>
+
+    <strong>public</strong> <strong>static</strong> <strong>int</strong> <font color="#2040a0">numCustomers</font> <font color="4444FF">=</font><font color="#FF0000">0</font><font color="4444FF">;</font>
+    <strong>public</strong> <strong>static</strong> <strong>int</strong> <font color="#2040a0">numChairs</font> <font color="4444FF">=</font> <font color="#FF0000">5</font><font color="4444FF">;</font>
+
+    <strong>public</strong> <strong>static</strong> <strong>void</strong> <font color="#2040a0">main</font><font color="4444FF"><strong>(</strong></font><font color="#2040a0">String</font><font color="4444FF"><strong>[</strong></font><font color="4444FF"><strong>]</strong></font> <font color="#2040a0">arg</font><font color="4444FF"><strong>)</strong></font> <font color="4444FF"><strong>{</strong></font>
+
+        <font color="#2040a0">Barber</font> <font color="#2040a0">barber</font> <font color="4444FF">=</font> <strong>new</strong> <font color="#2040a0">Barber</font><font color="4444FF"><strong>(</strong></font><font color="#FF0000">3</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+        <font color="#2040a0">Customer</font> <font color="#2040a0">customer1</font> <font color="4444FF">=</font> <strong>new</strong> <font color="#2040a0">Customer</font><font color="4444FF"><strong>(</strong></font><font color="#FF0000">1</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+        <font color="#2040a0">Customer</font> <font color="#2040a0">customer2</font> <font color="4444FF">=</font> <strong>new</strong> <font color="#2040a0">Customer</font><font color="4444FF"><strong>(</strong></font><font color="#FF0000">2</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+        <font color="#2040a0">Customer</font> <font color="#2040a0">customer3</font> <font color="4444FF">=</font> <strong>new</strong> <font color="#2040a0">Customer</font><font color="4444FF"><strong>(</strong></font><font color="#FF0000">3</font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+        <font color="#2040a0">barber</font>.<font color="#2040a0">start</font><font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+        <font color="#2040a0">customer1</font>.<font color="#2040a0">start</font><font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+        <font color="#2040a0">customer2</font>.<font color="#2040a0">start</font><font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+
+        <font color="#2040a0">customer3</font>.<font color="#2040a0">start</font><font color="4444FF"><strong>(</strong></font><font color="4444FF"><strong>)</strong></font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+<font color="4444FF"><strong>}</strong></font>
+</pre>
+      </blockquote>
+ 
+ 
+<h3>Unbounded Coarse-Grain Solution</h3>
+
+      <blockquote> 
+      <p>
+      CLUSTER: B1C2<br>
+
+      STATE SPACE VARIABLES: B1_in, B1_out, C2_in, C2_out;<br>
+      REGION: B1<br>
+      ENTER: &lt;B1_in++;&gt;<br>
+      NOTIFY: C2_out;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;AWAIT B1_out  + 1  &lt;= C2_in  --&gt; B1_out++;&gt;<br>
+
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      REGION: C2<br>
+      ENTER: &lt;C2_in++;&gt;<br>
+      NOTIFY: B1_out;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;AWAIT C2_out  + 1  &lt;= B1_in  --&gt; C2_out++;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      CLUSTER: C1C3<br>
+      STATE SPACE VARIABLES: C1_in, C1_out, C3_in, C3_out;<br>
+
+      REGION: C1<br>
+      ENTER: &lt;AWAIT C1_in  == C1_out  &amp;&amp; C3_in  == C3_out  --&gt; C1_in++;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;C1_out++;&gt;<br>
+      NOTIFY: C1_in;<br>
+      NOTIFYALL: C3_in;
+
+      </p><p>
+      REGION: C3<br>
+      ENTER: &lt;AWAIT C3_in  == C3_out  &amp;&amp; C1_in  == C1_out  --&gt; C3_in++;&gt;<br>
+
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;C3_out++;&gt;<br>
+      NOTIFY: C3_in;<br>
+      NOTIFYALL: C1_in;
+
+      </p><p>
+      CLUSTER: B3C4<br>
+
+      STATE SPACE VARIABLES: B3_in, C4_out;<br>
+      REGION: B3<br>
+      ENTER: &lt;B3_in++;&gt;<br>
+      NOTIFY: C4_out;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;&gt;<br>
+
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      REGION: C4<br>
+      ENTER: &lt;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;AWAIT C4_out  + 1  &lt;= B3_in  --&gt; C4_out++;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      CLUSTER: B4C5<br>
+      STATE SPACE VARIABLES: C5_in, B4_out;<br>
+
+      REGION: B4<br>
+      ENTER: &lt;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;AWAIT B4_out  + 1  &lt;= C5_in  --&gt; B4_out++;&gt;<br>
+
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      REGION: C5<br>
+      ENTER: &lt;C5_in++;&gt;<br>
+      NOTIFY: B4_out;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+      </p></blockquote>
+  
+  
+<h3>Bounded Counter Coarse-Grain Solution</h3>
+
+
+      <blockquote> 
+      <p>
+      CLUSTER: B1C2<br>
+      STATE SPACE VARIABLES: Ba1_1, Ba1_2;<br>
+      LOCAL VARIABLES: ;<br>
+      REGION: B1<br>
+
+      ENTER: &lt;Ba1_2--;&gt;<br>
+      NOTIFY: C2_out;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;AWAIT Ba1_1  &lt;= -1  --&gt; Ba1_1++;&gt;<br>
+
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      REGION: C2<br>
+      ENTER: &lt;Ba1_1--;&gt;<br>
+      NOTIFY: B1_out;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;AWAIT Ba1_2  &lt;= -1  --&gt; Ba1_2++;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      CLUSTER: C1C3<br>
+      STATE SPACE VARIABLES: B1, B2, E1_0, E1_1;
+      LOCAL VARIABLES: ;<br>
+
+      REGION: C1<br>
+      ENTER: &lt;AWAIT B1  == 0  &amp;&amp; E1_1  == 0  --&gt; B1++;E1_0++;&gt;
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;B1--;E1_0--;&gt;<br>
+      NOTIFY: C1_in;<br>
+      NOTIFYALL: C3_in;<br>
+
+      </p><p>
+      REGION: C3<br>
+      ENTER: &lt;AWAIT B2  == 0  &amp;&amp; E1_0  == 0  --&gt; B2++;E1_1++;&gt;<br>
+
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;B2--;E1_1--;&gt;<br>
+      NOTIFY: C3_in;<br>
+      NOTIFYALL: C1_in;
+
+      </p><p>
+      CLUSTER: B3C4<br>
+
+      STATE SPACE VARIABLES: Re1;<br>
+      LOCAL VARIABLES: ;<br>
+      REGION: B3<br>
+      ENTER: &lt;Re1--;&gt;<br>
+      NOTIFY: C4_out;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      REGION: C4<br>
+      ENTER: &lt;&gt;<br>
+      NOTIFY: ;<br>
+
+      NOTIFYALL: ;<br>
+      EXIT: &lt;AWAIT Re1  &lt;= -1  --&gt; Re1++;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      CLUSTER: B4C5<br>
+
+      STATE SPACE VARIABLES: Re2;<br>
+      LOCAL VARIABLES: ;<br>
+      REGION: B4<br>
+      ENTER: &lt;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;<br>
+
+      EXIT: &lt;AWAIT Re2  &lt;= -1  --&gt; Re2++;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+      </p><p>
+      REGION: C5<br>
+      ENTER: &lt;Re2--;&gt;<br>
+
+      NOTIFY: B4_out;<br>
+      NOTIFYALL: ;<br>
+      EXIT: &lt;&gt;<br>
+      NOTIFY: ;<br>
+      NOTIFYALL: ;
+
+
+        </p><p>&nbsp;</p>
+
+      </blockquote>
+ 
+ 
+<h3>Unbounded and Bounded Fine-Grain Solutions</h3>
+
+      <blockquote> 
+        <ul>
+
+          <li><a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberC1C3fine.shtml">Cluster C1C3</a> | <a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberC1C3fine_bounded.shtml">Bounded Counter Version</a> 
+          </li><li><a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberB1C2fine.shtml">Cluster B1C2</a> | <a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberB1C2fine_bounded.shtml">Bounded Counter Version</a> 
+          </li><li><a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberB3C4fine.shtml">Cluster B3C4</a>| <a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberB3C4fine_bounded.shtml">Bounded Counter Version</a> 
+          </li><li><a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberB4C5fine.shtml">Cluster B4C5</a> | <a href="http://syncgen.projects.cis.ksu.edu/documentation/examples/fine/barberB4C5fine_bounded.shtml">Bounded Counter Version</a> </li>
+
+        </ul>
+      </blockquote>
+
+</div>
+
+</td>
+</tr>
+</tbody></table>
+
+
+
+
+</body></html>
